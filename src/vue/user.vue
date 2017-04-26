@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.user-background-blur-custom').style.backgroundImage = `url(${path})`
             document.querySelector('.user-background-blur-custom').style.opacity = '1';
             document.querySelector('.user-background-blur').style.opacity = '0';
-        }, 2000);
+        }, 1500);
     }, false);
     img.src = path;
 }, false);

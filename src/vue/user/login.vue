@@ -2,10 +2,6 @@
 <template>
 <div class="user-box login-box">
     <h1>WELCOME BACK.</h1>
-    <!-- <div class="form-group">
-        <input style="display:none" type="text" name="fakeusernameremembered" />
-        <input style="display:none" type="password" name="fakepasswordremembered" />
-    </div> -->
     <div class="form-group">
         <label for="email">EMAIL</label>
         <input type="text" name="email" spellcheck="false">
