@@ -1,8 +1,8 @@
+<!-- index page -->
 <template>
-<root>
+<div>
     <h1>{{ hello }}</h1>
-    <fucking :message="hello"></fucking>
-</root>
+</div>
 </template>
 
 <script>
@@ -12,8 +12,5 @@ module.exports = {
             hello: 'greetings!'
         };
     },
-    components: {
-        'fucking': require('./subcomponent.vue')
-    }
 };
 </script>

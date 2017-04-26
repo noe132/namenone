@@ -1,6 +1,8 @@
 {
   "ecmaVersion": "7",
-  "libs": [],
+  "libs": [
+    "browser"
+  ],
   "loadEagerly": [],
   "dontLoad": [
     "node_module/**"
@@ -11,6 +13,7 @@
       "dontLoad": "",
       "load": "",
       "modules": ""
-    }
+    },
+    "commonjs": {}
   }
 }

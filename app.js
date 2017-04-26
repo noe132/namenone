@@ -12,19 +12,19 @@ app.set('views', './views');
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
-app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '/src/asserts/', 'favicon.ico')));
 
-app.use('/static/css/', lessMiddleware(__dirname + '/static/less/', {
+// complie less
+app.use('/static/css/', lessMiddleware(__dirname + '/src/less/', {
     dest: __dirname + '/static/css/'
 }));
 
-app.use('/static/js/', browserify(__dirname + '/static/js/', {
+// browserify js
+app.use('/static/js/main.js', browserify(__dirname + '/src/main.js', {
     transform: ['vueify']
 }));
 
-app.use('/static/css', express.static('static'));
-app.use('/static/js', express.static('static'));
-app.use('/static/img', express.static('static'));
+app.use('/static/img', express.static('/asserts/img'));
 
 app.get('/*', function(req, res) {
     res.render('index', { title: 'hello' });
