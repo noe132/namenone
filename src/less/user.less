@@ -1,6 +1,8 @@
 
 .user-background {
-    background-color: #111;
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
     height: 100%;
     width: 100%;
     top: 0;
@@ -9,26 +11,30 @@
     z-index: -2;
 }
 
+.user-background-color {
+    background-color: #111;
+}
+
 .user-background-blur {
-    background-image: url("/static/img/background/2.jpg");
-    background-size: cover;
-    background-position: center;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    z-index: -1;
-    filter: blur(10px);
+    background-image: url("/static/img/background/default.png");
+    filter: blur(8px);
+    transition: 2s;
+}
+
+.user-background-blur-custom {
+    filter: blur(8px);
+    opacity: 0;
+    transition: 2s;
 }
 
 .user-box {
     position: absolute;
-    left: calc(~"50% - 300px");
-    top: calc(~"50% - 300px");
-    width: 600px;
-    height: 600px;
+    left: calc(~"50% - 260px");
+    top: calc(~"50% - 270px");
+    width: 520px;
+    height: 470px;
     z-index: 1;
     background: rgba(40, 43, 48, 0.75);
     border-radius: 5px;
+    overflow: hidden;
 }
