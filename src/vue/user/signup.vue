@@ -1,6 +1,6 @@
 <!-- login page -->
 <template>
-<div class="login-box">
+<div class="user-box signup-box">
     <h1>WELCOME HERE.</h1>
     <div class="form-group">
         <label for="email">EMAIL</label>

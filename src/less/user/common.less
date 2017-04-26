@@ -1,0 +1,72 @@
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 2.4rem;
+    margin: 40px 0;
+}
+
+.form-group {
+    padding: 0 40px;
+    margin: 30px 0 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #999;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    -webkit-appearance: textfield;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid gray;
+    margin: 10px 0 2px;
+    color: white;
+    display: block;
+    font-family: sans-serif;
+    font-size: 1.6rem;
+    height: 40px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-bottom: 2px solid white;
+    margin-bottom: 1px;
+}
+
+@button-blue:rgb(66, 125, 180);
+
+.form-group .button {
+    color: white;
+    background: @button-blue;
+    border-radius: 5px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.form-group .button:hover {
+    color: white;
+    background: darken(@button-blue, 5%);
+    border-radius: 5px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 15px;
+}
+
+footer {
+    color: gray;
+    font-size: 1.2rem;
+}
+
+footer > a {
+    color: white;
+    text-decoration: none;
+}

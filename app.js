@@ -24,7 +24,8 @@ app.use('/static/js/main.js', browserify(__dirname + '/src/main.js', {
     transform: ['vueify']
 }));
 
-app.use('/static/img', express.static('/asserts/img'));
+app.use('/static/img', express.static('src/asserts/img'));
+app.use('/static/css', express.static('static/css'));
 
 app.get('/*', function(req, res) {
     res.render('index', { title: 'hello' });

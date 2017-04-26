@@ -1,9 +1,11 @@
 <template>
 <div>
-    <div class="login-background">user</div>
+    <div class="user-background"></div>
+    <div class="user-background-blur"></div>
     <router-view></router-view>
 </div>
 </template>
+
 
 <script>
 module.exports = {
@@ -15,3 +17,5 @@ module.exports = {
     }
 };
 </script>
+
+<style scoped lang="less" src="../less/user.less"></style>
