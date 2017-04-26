@@ -17,10 +17,14 @@ app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
 app.use('/static/css/', lessMiddleware(__dirname + '/static/less/', {
     dest: __dirname + '/static/css/'
 }));
+
 app.use('/static/js/', browserify(__dirname + '/static/js/', {
     transform: ['vueify']
 }));
-app.use('/static/', express.static('static'));
+
+app.use('/static/css', express.static('static'));
+app.use('/static/js', express.static('static'));
+app.use('/static/img', express.static('static'));
 
 app.get('/*', function(req, res) {
     res.render('index', { title: 'hello' });
