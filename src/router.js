@@ -18,6 +18,9 @@ const routes = [
             }
         ]
     },{
+        path: '/chat',
+        component: require('./vue/chat.vue'),
+    },{
         path: '/foo',
         component: Foo
     },{

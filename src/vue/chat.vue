@@ -1,3 +1,21 @@
+<template>
+<div>
+    <!-- <div class="chat-background chat-background-color"></div>
+    <div class="chat-background chat-background-image"></div>
+    <router-view></router-view> -->
+</div>
+</template>
+
+
+<script>
+module.exports = {
+    props: ['user'],
+    data: function() {
+        return {
+            hello: 'greetings!'
+        };
+    }
+};
 document.addEventListener('DOMContentLoaded', function() {
     let img = document.createElement('img');
     let path = `/static/img/background/${Math.floor(Math.random()*9 + 1)}.jpg`;
@@ -10,3 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
     img.src = path;
 }, false);
+</script>
+
+<!-- <style scoped lang="less" src="../less/chat.less"></style> -->
