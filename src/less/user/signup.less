@@ -1,6 +1,5 @@
 @import "/src/less/user/common.less";
 
-
 .form-group .forgot_password {
     color: dimgray;
     text-decoration: none;
@@ -16,4 +15,17 @@
 
 footer.form-group {
     margin-top: 70px;
+}
+
+.user-signup-enter-active {
+    transition: 1s transform 0.3s, 1s opacity 0.3s;
+}
+
+.user-signup-leave-active {
+    transition: transform 1s, opacity 1s;
+}
+
+.user-signup-enter, .user-signup-leave-to {
+    transform: translateX(100px);
+    opacity: 0;
 }
