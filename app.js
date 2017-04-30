@@ -10,6 +10,7 @@ const mysqloption       = require('./src/config/mysqlConfig.js');
 const sessionStore      = new MySQLStore(Object.assign(mysqloption, {database: 'chat'}));
 
 const app               = express();
+const router            = require('./src/router.js');
 
 require('./src/module/createDatebase.js')(mysqloption);
 
@@ -43,7 +44,13 @@ app.use('/static/js/main.js', browserify(__dirname + '/src/main.js', {
 app.use('/static/img', express.static('src/asserts/img'));
 app.use('/static/css', express.static('static/css'));
 
-// handle request
+/* serve-libs */
+app.use('/static/lib', express.static('src/libs'));
+
+/* router */
+app.use(router);
+
+/* handle request */
 app.get('/*', function(req, res) {
     res.render('index', { title: 'hello' });
 });

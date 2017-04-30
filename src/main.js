@@ -3,7 +3,7 @@ const VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 
-const routes = require('./router.js');
+const routes = require('./vueRouter.js');
 
 const router = new VueRouter({
     mode: 'history',
