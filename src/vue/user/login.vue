@@ -4,16 +4,17 @@
     <div class="user-box login-box">
         <h1>WELCOME BACK.</h1>
         <div class="form-group">
-            <label for="email">EMAIL</label>
-            <input type="text" name="email" spellcheck="false">
+            <label for="username">USERNAME</label>
+            <input type="text" id="username" name="username" @keypress="keypress" @keypress.enter="focus" spellcheck="false">
         </div>
         <div class="form-group">
             <label for="password">PASSWORD</label>
-            <input type="password" name="password" autocomplete="new-password">
+            <input type="password" id="password" name="password" @keypress="keypress" @keypress.enter="login" autocomplete="new-password">
             <router-link class='forgot_password' to="/user/forgot">FORGOT YOUR PASSWORD?</router-link>
+            <p class="message"></p>
         </div>
         <footer class="form-group">
-            <a type="button" id="login" class="button" name="login" @click="logined">Login</a>
+            <a type="button" id="login" @click="login_click" class="button" name="login">Login</a>
             <p>
                 <span>Not Register yet?</span>
                 <router-link to="/user/signup">Sign up</router-link>
@@ -31,12 +32,35 @@ module.exports = {
         };
     },
     methods: {
-        logined: function() {
-            alert('greetings');
-            this.$router.push('/');
+        keypress() {
+            document.querySelector('.message').textContent = '';
+        },
+        focus() {
+            document.querySelector('#password').focus();
+        },
+        login_keypress(e) {
+            if (e.keyCode === 13) {
+                this.login();
+            }
+        },
+        login_click() {
+            this.login();
+        },
+        login() {
+            let $ = q => { return document.querySelector(q) };
+            let r = /^.{3,16}%/;
+            if (r.test($('#username').value) && r.test($('#password').value)) {
+                alert('greetings');
+                // this.$router.push('/');
+            } else {
+                $('.message').textContent = 'incorrect username or password!';
+            }
+
         }
     }
 };
 </script>
 
-<style scoped lang="less" src="../../less/user/login.less"></style>
+<style scoped lang="less">
+@import "/src/less/user/login.less";
+</style>

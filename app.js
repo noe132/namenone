@@ -1,12 +1,13 @@
-const express           = require('express');
 const browserify        = require('browserify-middleware');
+const express           = require('express');
+const favicon           = require('serve-favicon');
 const lessMiddleware    = require('less-middleware');
 const morgan            = require('morgan');
-const favicon           = require('serve-favicon');
-const path              = require('path');
-const session           = require('express-session');
-const MySQLStore        = require('express-mysql-session')(session);
 const mysqloption       = require('./src/config/mysqlConfig.js');
+const session           = require('express-session');
+const path              = require('path');
+
+const MySQLStore        = require('express-mysql-session')(session);
 const sessionStore      = new MySQLStore(Object.assign(mysqloption, {database: 'chat'}));
 
 const app               = express();

@@ -38,4 +38,6 @@ module.exports = {
 };
 </script>
 
-<style scoped lang="less" src="../../less/user/signup.less"></style>
+<style scoped lang="less">
+@import "/src/less/user/signup.less";
+</style>
