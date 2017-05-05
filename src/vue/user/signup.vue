@@ -24,8 +24,8 @@
 </template>
 
 <script>
-let got = require('got');
 module.exports = {
+    name: 'signup',
     data: function() {
         return {
             hello: 'greetings!'

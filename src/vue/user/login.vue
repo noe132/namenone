@@ -25,8 +25,8 @@
 </template>
 
 <script>
-let got = require('got');
 module.exports = {
+    name: 'login',
     data: function() {
         return {
             hello: 'greetings!'
@@ -50,7 +50,7 @@ module.exports = {
         login() {
             let _this = this;
             let $ = q => {
-                return document.querySelector(q)
+                return document.querySelector(q);
             };
             let username = $('#username').value;
             let password = $('#password').value;

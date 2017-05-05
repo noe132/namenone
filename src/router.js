@@ -6,7 +6,16 @@ const model = require('./model.js');
 router.use('/api', bodyParser.json());
 router.use('/api', bodyParser.urlencoded({ extended: false }));
 
-router.post('/api/signup', function(req, res) {
+router.all('/api/islogin', function(req, res) {
+    res.contentType('application/json');
+    res.status(200);
+    res.send(JSON.stringify({
+        status: 0,
+        logined: req.session.logined === true ? true : false,
+    }));
+});
+
+router.all('/api/signup', function(req, res) {
     res.contentType('application/json');
     model.signup({
         username: req.body.username,
@@ -18,9 +27,6 @@ router.post('/api/signup', function(req, res) {
                 status: 0,
                 message: 'signup successfully'
             }));
-            req.session.logined = true;
-            req.session.id = v[0].id;
-            req.session.username = v[0].username;
         } else {
             res.send(JSON.stringify({
                 status: 1,
@@ -37,7 +43,7 @@ router.post('/api/signup', function(req, res) {
     });
 });
 
-router.post('/api/login', function(req, res) {
+router.all('/api/login', function(req, res) {
     res.contentType('application/json');
     model.login({
         username: req.body.username,
@@ -45,13 +51,13 @@ router.post('/api/login', function(req, res) {
     }).then(v => {
         res.status(200);
         if (v.length === 1) {
+            req.session.logined = true;
+            req.session.uid = v[0].uid;
+            req.session.username = v[0].username;
             res.send(JSON.stringify({
                 status: 0,
-                message: 'login successfully'
+                message: 'login successfully',
             }));
-            req.session.logined = true;
-            req.session.id = v[0].id;
-            req.session.username = v[0].username;
         } else {
             res.send(JSON.stringify({
                 status: 1,
@@ -68,7 +74,7 @@ router.post('/api/login', function(req, res) {
     });
 });
 
-router.post('/api/logout', function(req, res) {
+router.all('/api/logout', function(req, res) {
     req.session.destroy();
     res.contentType('application/json');
     res.send(JSON.stringify({

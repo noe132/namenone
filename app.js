@@ -7,8 +7,8 @@ const mysqloption = require('./src/config/mysqlConfig.js');
 const session = require('express-session');
 const path = require('path');
 
-const MySQLStore = require('express-mysql-session')(session);
-const sessionStore = new MySQLStore(Object.assign(mysqloption, { database: 'chat' }));
+// const MySQLStore = require('express-mysql-session')(session);
+// const sessionStore = new MySQLStore(Object.assign(mysqloption, { database: 'chat' }));
 
 const app = express();
 const router = require('./src/router.js');
@@ -22,11 +22,17 @@ app.set('views', './views');
 
 app.use(session({
     secret: 'asdiuergnkswf',
-    store: sessionStore,
+    // store: sessionStore,
     resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true }
+    saveUninitialized: true,
+    cookie: {
+        path: '/',
+        httpOnly: false,
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24
+    }
 }));
+// Access the session as req.session
 
 app.use(morgan(':status :method :url :res[content-length] - :response-time ms'));
 

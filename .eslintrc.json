@@ -9,7 +9,7 @@
         "sourceType": "script"
     },
     "ext": ["vue"],
-    "plugins": ["html"],
+    "plugins": ["html","eslint-plugin-html"],
     "extends": "eslint:recommended",
     "rules": {
         "indent": [

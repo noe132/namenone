@@ -16,12 +16,12 @@
 
 .user-background-blur {
     background-image: url("/static/img/background/default.png");
-    filter: blur(8px);
+    filter: blur(5px);
     transition: 3s;
 }
 
 .user-background-blur-custom {
-    filter: blur(8px);
+    filter: blur(5px);
     opacity: 0;
     transition: 3s;
 }
@@ -36,4 +36,12 @@
     background: rgba(40, 43, 48, 0.75);
     border-radius: 5px;
     overflow: hidden;
+}
+
+.user-leave-active {
+    transition: opacity 1s;
+}
+
+.user-enter, .user-leave-to {
+    opacity: 0;
 }
