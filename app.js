@@ -1,19 +1,21 @@
-const browserify        = require('browserify-middleware');
-const express           = require('express');
-const favicon           = require('serve-favicon');
-const lessMiddleware    = require('less-middleware');
-const morgan            = require('morgan');
-const mysqloption       = require('./src/config/mysqlConfig.js');
-const session           = require('express-session');
-const path              = require('path');
+const browserify = require('browserify-middleware');
+const express = require('express');
+const favicon = require('serve-favicon');
+const lessMiddleware = require('less-middleware');
+const morgan = require('morgan');
+const mysqloption = require('./src/config/mysqlConfig.js');
+const session = require('express-session');
+const path = require('path');
 
-const MySQLStore        = require('express-mysql-session')(session);
-const sessionStore      = new MySQLStore(Object.assign(mysqloption, {database: 'chat'}));
+const MySQLStore = require('express-mysql-session')(session);
+const sessionStore = new MySQLStore(Object.assign(mysqloption, { database: 'chat' }));
 
-const app               = express();
-const router            = require('./src/router.js');
+const app = express();
+const router = require('./src/router.js');
 
-require('./src/module/createDatebase.js')(mysqloption);
+require('./src/module/createDatebase.js')(mysqloption).catch(e => {
+    throw e;
+});
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -26,7 +28,7 @@ app.use(session({
     cookie: { secure: true }
 }));
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.use(morgan(':status :method :url :res[content-length] - :response-time ms'));
 
 /* serve-favicon */
 app.use(favicon(path.join(__dirname, '/src/asserts/', 'favicon.ico')));

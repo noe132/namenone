@@ -25,6 +25,7 @@
 </template>
 
 <script>
+let got = require('got');
 module.exports = {
     data: function() {
         return {
@@ -47,15 +48,34 @@ module.exports = {
             this.login();
         },
         login() {
-            let $ = q => { return document.querySelector(q) };
-            let r = /^.{3,16}%/;
-            if (r.test($('#username').value) && r.test($('#password').value)) {
-                alert('greetings');
-                // this.$router.push('/');
+            let _this = this;
+            let $ = q => {
+                return document.querySelector(q)
+            };
+            let username = $('#username').value;
+            let password = $('#password').value;
+
+            let r = /^.{3,16}$/;
+            if (r.test(username) && r.test(password)) {
+                let axios = require('axios');
+                axios({
+                    method: 'post',
+                    url: '/api/login',
+                    data: {
+                        username,
+                        password
+                    }
+                }).then(r => {
+                    if (r.data.status === 0) {
+                        alert('greetings');
+                        _this.$router.push('/chat');
+                    } else {
+                        $('.message').textContent = r.data.message;
+                    }
+                });
             } else {
                 $('.message').textContent = 'incorrect username or password!';
             }
-
         }
     }
 };
