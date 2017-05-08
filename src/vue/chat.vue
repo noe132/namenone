@@ -29,7 +29,8 @@
 
                     </div>
                 </div>
-                <div class="friend-box flex">
+                <div class="friend-box flex flexcolumn">
+                    <friend-item @fclicked="ff" :item="item" v-for="item in friends"></friend-item>
                 </div>
             </div>
         </div>
@@ -42,8 +43,21 @@ module.exports = {
     props: ['user'],
     data: function() {
         return {
-            hello: 'greetings!'
+            hello: 'greetings!',
+            friends: [{
+                name: 'noe132'
+            }, {
+                name: 'mozkoe'
+            }]
         };
+    },
+    components: {
+        'friend-item': require('./components/friend-item.vue')
+    },
+    methods: {
+        ff(param) {
+            console.log(param);
+        }
     }
 };
 </script>

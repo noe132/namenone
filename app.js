@@ -12,6 +12,8 @@ const path = require('path');
 
 const app = express();
 const router = require('./src/router.js');
+const wsrouter = require('./src/wsrouter.js');
+require('express-ws')(app);
 
 require('./src/module/createDatebase.js')(mysqloption).catch(e => {
     throw e;
@@ -58,6 +60,7 @@ app.use('/static/lib', express.static('src/libs'));
 
 /* router */
 app.use(router);
+app.use('/ws', wsrouter);
 
 /* handle request */
 app.get('/*', function(req, res) {
