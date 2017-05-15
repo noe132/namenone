@@ -1,0 +1,79 @@
+@import "/src/less/color-variable.less";
+
+.friend-item {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-items: center;
+    position: relative;
+
+    &:hover {
+        background: @darkgray-3;
+
+        .avatar::after {
+            border: 2px solid @darkgray-3;
+        }
+
+        .delete {
+            display: flex;
+        }
+    }
+
+    .avatar {
+        order: 1;
+        background-image: url("/static/img/user.svg");
+        height: 35px;
+        width: 35px;
+        position: relative;
+
+        &::after {
+            content: "";
+            display: block;
+            border-radius: 100px;
+            height: 14px;
+            width: 14px;
+            border: 2px solid @darkgray-1;
+            position: absolute;
+            right: -2px;
+            bottom: -2px;
+        }
+
+        &.online::after {
+            background: @palmgreen;
+        }
+
+        &.offline::after {
+            background: @gray;
+        }
+    }
+
+    .name {
+        order: 2;
+        height: 35px;
+        text-align: left;
+        line-height: 35px;
+        padding-left: 15px;
+        color: #CCC;
+    }
+
+    .delete {
+        order: 3;
+        height: 35px;
+        width: 20px;
+        background-image: url("/static/img/delete.svg");
+        background-size: 15px;
+        background-position: center;
+        background-repeat: no-repeat;
+        // flex: 0 0 auto;
+        cursor: pointer;
+        opacity: 0.6;
+        position: absolute;
+        right: 20px;
+        display: none;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

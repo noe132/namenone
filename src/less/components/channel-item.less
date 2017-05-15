@@ -1,0 +1,73 @@
+@import "/src/less/color-variable.less";
+
+.channel-item {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        background: @darkgray-3;
+
+        .indicator {
+            border: 3px solid @darkgray-3;
+        }
+
+        .delete {
+            display: flex;
+        }
+    }
+
+    .avatar {
+        background-image: url("/static/img/user.svg");
+        height: 35px;
+        width: 35px;
+        position: relative;
+        @size: 22px;
+
+        .indicator {
+            content: "99";
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            border-radius: 100px;
+            height: @size;
+            width: @size;
+            line-height: calc(@size - 6px);
+            background: @red;
+            border: 3px solid @darkgray-1;
+            position: absolute;
+            right: -6px;
+            bottom: -6px;
+        }
+    }
+
+    .name {
+        height: 35px;
+        text-align: left;
+        line-height: 35px;
+        padding-left: 15px;
+        color: #CCC;
+    }
+
+    .delete {
+        height: 35px;
+        width: 20px;
+        background-image: url("/static/img/delete.svg");
+        background-size: 15px;
+        background-position: center;
+        background-repeat: no-repeat;
+        // flex: 0 0 auto;
+        cursor: pointer;
+        display: none;
+        opacity: 0.6;
+        position: absolute;
+        right: 20px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

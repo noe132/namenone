@@ -7,89 +7,132 @@ router.use('/api', bodyParser.json());
 router.use('/api', bodyParser.urlencoded({ extended: false }));
 
 router.all('/api/islogin', function(req, res) {
-    res.contentType('application/json');
-    res.status(200);
-    res.send(JSON.stringify({
+    response({
+        res,
+        code: 200,
         status: 0,
-        logined: req.session.logined === true ? true : false,
-    }));
+        message: 'ok',
+        obj: {
+            logined: req.session.logined === true ? true : false
+        }
+    });
 });
 
 router.all('/api/signup', function(req, res) {
-    res.contentType('application/json');
     model.signup({
         username: req.body.username,
         password: req.body.password
     }).then(v => {
-        res.status(200);
         if (v.affectedRows === 1) {
-            res.send(JSON.stringify({
-                status: 0,
-                message: 'signup successfully'
-            }));
+            response({ res, code: 200, status: 0, message: 'signup successfully' });
         } else {
-            res.send(JSON.stringify({
-                status: 1,
-                message: 'username in use'
-            }));
+            response({ res, code: 200, status: 1, message: 'username in use' });
         }
     }).catch(e => {
-        res.status(500);
-        res.send(JSON.stringify({
-            status: 1,
-            message: 'internal server error',
-            error_message: e.toString()
-        }));
+        response({ res, code: 500, status: 1, message: e.toString() });
     });
 });
 
 router.all('/api/login', function(req, res) {
-    res.contentType('application/json');
     model.login({
         username: req.body.username,
         password: req.body.password
     }).then(v => {
-        res.status(200);
         if (v.length === 1) {
             req.session.logined = true;
             req.session.uid = v[0].uid;
             req.session.username = v[0].username;
-            res.send(JSON.stringify({
-                status: 0,
-                message: 'login successfully',
-            }));
+            response({ res, code: 200, status: 0, message: 'login successfully' });
         } else {
-            res.send(JSON.stringify({
-                status: 1,
-                message: 'incorrect username or password'
-            }));
+            response({ res, code: 200, status: 1, message: 'incorrect username or password' });
         }
     }).catch(e => {
-        res.status(500);
-        res.send(JSON.stringify({
-            status: 1,
-            message: 'internal server error',
-            error_message: e.toString()
-        }));
+        response({ res, code: 500, status: 1, message: e.toString() });
     });
 });
 
 router.all('/api/logout', function(req, res) {
     req.session.destroy();
-    res.contentType('application/json');
-    res.send(JSON.stringify({
-        status: 0,
-        message: 'logout successfully'
-    }));
+    response({ res, code: 200, status: 0, message: 'logout successfully' });
+});
+
+router.all('/api/friends', function(req, res) {
+    if (!req.session.uid) {
+        response({ res, code: 200, status: 1, message: 'not login' });
+        return;
+    }
+    model.friends({
+        uid: req.session.uid
+    }).then(v => {
+        response({ res, code: 200, status: 0, data: v });
+    }).catch(e => {
+        response({ res, code: 500, status: 1, message: e.toString() });
+    });
 });
 
 router.all('/api*', (req, res) => {
-    res.contentType('application/json');
-    res.status(404);
-    res.send(JSON.stringify({
-        status: 1,
-        message: '404'
-    }));
+    response({ res, code: 404, status: 1, message: '404' });
 });
+
+
+router.all('/api/addfriend', function(req, res) {
+    if (!req.session.uid) {
+        response({ res, code: 200, status: 1, message: 'not login' });
+        return;
+    }
+    model.addfriend({
+        uid: req.session.uid,
+        username: req.body.fusername,
+    }).then(v => {
+        if (v.affectedRows === 2) {
+            response({ res, code: 200, status: 0, message: 'add friend successfully' });
+        } else {
+            response({ res, code: 200, status: 1, message: 'friend already added' });
+        }
+    }).catch(e => {
+        response({ res, code: 500, status: 1, message: e.toString() });
+    });
+});
+
+router.all('/api/removefriend', function(req, res) {
+    if (!req.session.uid) {
+        response({ res, code: 200, status: 1, message: 'not login' });
+        return;
+    }
+    model.removefriend({
+        uid: req.session.uid,
+        fuid: req.body.fuid,
+    }).then(v => {
+        if (v.affectedRows === 2) {
+            response({ res, code: 200, status: 0, message: 'add friend successfully' });
+        } else {
+            response({ res, code: 200, status: 1, message: 'friend not exist' });
+        }
+    }).catch(e => {
+        response({ res, code: 500, status: 1, message: e.toString() });
+    });
+});
+
+router.all('/api*', (req, res) => {
+    response({ res, code: 404, status: 1, message: '404' });
+});
+
+
+
+function response({ res, code, status, message, data, exobj }) {
+    res.contentType('application/json');
+    res.status(code);
+    let obj = {
+        status: status,
+    };
+    Object.assign(obj, exobj);
+    if (message) {
+        obj.message = message;
+    }
+    if (data) {
+        obj.data = JSON.stringify(data);
+    }
+    res.send(JSON.stringify(obj));
+}
 
 module.exports = router;

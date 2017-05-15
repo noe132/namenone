@@ -37,7 +37,7 @@ module.exports = {
             }).then(r => {
                 if (r.data.logined === true) {
                     setTimeout(() => {
-                        alert('you have already logined');
+                        // alert('you have already logined');
                         this.$router.push('/chat');
                     }, 1000);
                 }

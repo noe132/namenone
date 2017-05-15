@@ -7,13 +7,12 @@ const mysqloption = require('./src/config/mysqlConfig.js');
 const session = require('express-session');
 const path = require('path');
 
-// const MySQLStore = require('express-mysql-session')(session);
-// const sessionStore = new MySQLStore(Object.assign(mysqloption, { database: 'chat' }));
+const MySQLStore = require('express-mysql-session')(session);
+const sessionStore = new MySQLStore(Object.assign(mysqloption, { database: 'chat' }));
 
 const app = express();
 const router = require('./src/router.js');
 const wsrouter = require('./src/wsrouter.js');
-require('express-ws')(app);
 
 require('./src/module/createDatebase.js')(mysqloption).catch(e => {
     throw e;
@@ -24,7 +23,7 @@ app.set('views', './views');
 
 app.use(session({
     secret: 'asdiuergnkswf',
-    // store: sessionStore,
+    store: sessionStore,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -34,7 +33,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
-// Access the session as req.session
 
 app.use(morgan(':status :method :url :res[content-length] - :response-time ms'));
 
@@ -60,7 +58,7 @@ app.use('/static/lib', express.static('src/libs'));
 
 /* router */
 app.use(router);
-app.use('/ws', wsrouter);
+// app.use('/ws', wsrouter);
 
 /* handle request */
 app.get('/*', function(req, res) {
@@ -68,6 +66,8 @@ app.get('/*', function(req, res) {
 });
 
 /* eslint-disable */
-app.listen(8080, function() {
+const server = app.listen(8080, function() {
     console.log('namenone app listening on port 8080!');
 });
+
+wsrouter({ server, sessionStore });

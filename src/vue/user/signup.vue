@@ -9,7 +9,7 @@
         </div>
         <div class="form-group">
             <label for="password">PASSWORD</label>
-            <input type="password" v-model="password" name="password" @keypress="keypress" @keypress.enter="signup" autocomplete="new-password">
+            <input type="password" v-model="password" ref="password" name="password" @keypress="keypress" @keypress.enter="signup" autocomplete="new-password">
             <p class="message" :class="message_class">{{ message }}</p>
         </div>
         <footer class="form-group">
@@ -38,12 +38,7 @@ module.exports = {
             this.message_class = '';
         },
         focus() {
-            document.querySelector('#password').focus();
-        },
-        signup_keypress(e) {
-            if (e.keyCode === 13) {
-                this.signup();
-            }
+            this.$refs.password.focus();
         },
         signup_click() {
             this.signup();

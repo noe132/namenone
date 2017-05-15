@@ -1,12 +1,8 @@
-@darkgray: rgb(30, 32, 34);
-
-.flex {
-    display: flex;
-}
-
-.flexcolumn {
-    flex-flow: column nowrap;
-}
+@import "/src/less/color-variable.less";
+// @darkgray: rgb(30, 32, 34);
+// @darkgray-1: lighten(@darkgray, 2%);
+// @darkgray-2:lighten(@darkgray, 4%);
+// @palmgreen: rgb(62, 148, 86);
 
 .chat-background {
     background-color: transparent;
@@ -38,7 +34,6 @@
 
 .chat-container {
     color: white;
-    flex-flow: row nowrap;
     height: 100%;
     width: 100%;
 }
@@ -46,17 +41,16 @@
 .channel-box {
     order: 0;
     flex: 0 1 300px;
-    background: lighten(@darkgray, 2%);
-    flex-flow: column nowrap;
+    background: @darkgray-1;
+    user-select: none;
 
     .channel-header {
         order: 1;
         flex: 1 0 60px;
-        background: lighten(@darkgray, 2%);
-        border-bottom: 1px solid lighten(@darkgray, 0%);
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+        background: @darkgray-1;
+        border-bottom: 1px solid @darkgray;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.06);
         line-height: 60px;
-        flex-flow: row nowrap;
         justify-content: space-between;
 
         .title {
@@ -68,7 +62,7 @@
     .channel-body {
         order: 2;
         flex: 0 1 auto;
-        background: lighten(@darkgray, 2%);
+        background: @darkgray-1;
         height: 100%;
     }
 }
@@ -76,17 +70,15 @@
 .chat-box {
     order: 1;
     flex: 0 1 auto;
-    background: lighten(@darkgray, 4%);
+    background: @darkgray-2;
     width: 100%;
-    flex-flow: column nowrap;
 
     .chat-header {
         order: 1;
         flex: 1 0 60px;
-        background: lighten(@darkgray, 4%);
-        border-bottom: 1px solid lighten(@darkgray, 2%);
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-        flex-flow: row nowrap;
+        background: @darkgray-2;
+        border-bottom: 1px solid @darkgray-1;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.06);
         justify-content: space-between;
 
         .title {
@@ -103,36 +95,122 @@
             width: auto;
             padding: 0 20px;
             color: #EEE;
-            flex-flow: row nowrap;
 
             .button-item {
-                background: lighten(@darkgray, 6%);
-                flex: 0 0 30px;
-                width: 30px;
+                // background-color: lighten(@darkgray, 6%);
+                background-image: url("/static/img/logout.svg");
+                background-size: 25px;
+                background-position: center;
+                background-repeat: no-repeat;
+                flex: 0 0 40px;
+                width: 40px;
+                cursor: pointer;
             }
         }
     }
 
     .chat-main {
-        flex-flow: row nowrap;
         order: 2;
         flex: 0 1 auto;
-        background: lighten(@darkgray, 2%);
+        background: @darkgray-1;
         height: 100%;
 
         .chat-content {
             order: 1;
             flex: 0 1 auto;
-            background: lighten(@darkgray, 4%);
+            background: @darkgray-2;
             width: 100%;
             height: 100%;
+            display: flex;
+
+            .chat-area {
+                order: 1;
+                flex: 0 1 auto;
+                overflow-x: hidden;
+                overflow-y: scroll;
+            }
+
+            .chat-input-box {
+                order: 2;
+                flex: 0 0 auto;
+                padding: 20px 30px;
+                border-top: 1px solid @darkgray-3;
+                display: flex;
+
+                .text-box {
+                    flex: 1 0 auto;
+                    padding: 10px;
+                    color: @lightgray;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 2px solid @midgray;
+                    border-radius: 5px;
+                    resize: none;
+                    outline: none;
+                }
+            }
         }
 
         .friend-box {
             order: 2;
             flex: 0 1 300px;
-            background: lighten(@darkgray, 2%);
+            background: @darkgray-1;
             width: 100%;
+            user-select: none;
+
+            .friends-list-title {
+                margin-top: 10px;
+                padding: 10px 20px;
+                line-height: 20px;
+                color: @midgray;
+                font-size: 1.4rem;
+                display: flex;
+                justify-content: space-between;
+
+                span {
+                    order: 1;
+                    display: flex;
+                }
+
+                .add-friend {
+                    order: 2;
+                    height: 20px;
+                    width: 20px;
+                    // background-color: lighten(@darkgray, 6%);
+                    background-image: url("/static/img/add.svg");
+                    background-size: 15px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    flex: 0 0 auto;
+                    cursor: pointer;
+                    align-self: flex-end;
+                    display: flex;
+                    opacity: 0.6;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
         }
     }
+}
+
+.scroller::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 4px;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.scroller::-webkit-scrollbar-track-piece {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.scroller::-webkit-scrollbar-button {
+    background: none;
+    width: 8px;
 }

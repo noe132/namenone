@@ -6,5 +6,15 @@ module.exports = {
     },
     signup({ username, password }) {
         return mysqlQuery('insert into user set username = ?, password = ?, nickname = ?', [username, password, username]);
+    },
+    friends({ uid }) {
+        return mysqlQuery('select * from friend where uid = ?', [uid]);
+    },
+    addfriend({ uid, username }) {
+        return mysqlQuery('INSERT INTO friend (fid,uid,fuid) VALUES ' +
+            '(null,?,(select uid from user where username = ?)), (null,(select uid from user where username = ?),?)', [uid, username, username, uid]);
+    },
+    removefriend({ uid, fuid }) {
+        return mysqlQuery('DELETE FROM `friend` WHERE (uid = ? and fuid = ?) or (uid = ? and fuid = ?)', [uid, fuid, fuid, uid]);
     }
 };

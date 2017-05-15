@@ -9,7 +9,7 @@
         </div>
         <div class="form-group">
             <label for="password">PASSWORD</label>
-            <input type="password" v-model="password" name="password" @keypress="keypress" @keypress.enter="login" autocomplete="new-password">
+            <input type="password" v-model="password" ref="password" name="password" @keypress="keypress" @keypress.enter="login" autocomplete="new-password">
             <router-link class='forgot_password' to="/user/forgot">FORGOT YOUR PASSWORD?</router-link>
             <p class="message">{{ message }}</p>
         </div>
@@ -37,12 +37,7 @@ module.exports = {
             this.message = '';
         },
         focus() {
-            document.querySelector('#password').focus();
-        },
-        login_keypress(e) {
-            if (e.keyCode === 13) {
-                this.login();
-            }
+            this.$refs.password.focus();
         },
         login_click() {
             this.login();
@@ -60,6 +55,7 @@ module.exports = {
                         password: _this.password
                     }
                 }).then(r => {
+                    console.log(r.data);
                     if (r.data.status === 0) {
                         alert('greetings');
                         _this.$router.push('/chat');

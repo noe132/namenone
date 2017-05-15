@@ -16,10 +16,7 @@ const routes = [{
     }]
 }, {
     path: '/chat',
-    component: require('./vue/chat.vue'),
-    // components: {
-    //     'friend-item': require('./vue/components/friend-item.vue')
-    // }
+    component: require('./vue/chat.vue')
 }, {
     path: '/foo',
     component: Foo
