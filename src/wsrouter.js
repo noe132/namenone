@@ -1,12 +1,39 @@
-let ws = require('ws');
+let WebSocket = require('ws');
 let cookieParser = require('cookie-parser');
 let cookie = require('cookie');
 let Router = require('./module/router.js');
+let model = require('./model.js');
 
 let router = new Router();
 
+let message_operation = {
+    send_message({ data, session, ws, wss }) {
+        let to = data.to;
+        let from = session.uid;
+        let content = data.message;
+        let date = new Date();
+        // TODO insert
+        model.insertchatlog({ from, to, content, date }).then(v => {
+            if (v.affectedRows === 1) {
+                wss.clients.forEach(v => {
+                    if (v.upgradeReq.session.uid === to && v.readyState === WebSocket.OPEN) {
+                        v.send(JSON.stringify({
+                            type: 'message',
+                            message: content,
+                            from,
+                        }));
+                    }
+                });
+            }
+        }).catch(e => {
+            // TODO fail
+            console.log(e);
+        });
+    }
+};
+
 module.exports = function({ server, sessionStore }) {
-    const wss = new ws.Server({
+    const wss = new WebSocket.Server({
         server,
         clientTracking: true
     });
@@ -33,7 +60,7 @@ router.ws('/ws', (ws, wss) => {
         if (typeof msg !== 'string') {
             ws.send(JSON.stringify({
                 status: 1,
-                error: 'data must be json string'
+                message: 'data must be json string'
             }));
         }
         try {
@@ -41,11 +68,25 @@ router.ws('/ws', (ws, wss) => {
         } catch (e) {
             ws.send(JSON.stringify({
                 status: 1,
-                error: 'json parse error'
+                message: 'json parse error'
             }));
         }
 
-        ws.send(session.uid, msg);
+        if (!(data.req in message_operation)) {
+            ws.send(JSON.stringify({
+                status: 1,
+                message: 'operation not defined'
+            }));
+            return;
+        }
+        try {
+            message_operation[data.req]({ data, session, ws, wss });
+        } catch (e) {
+            ws.send(JSON.stringify({
+                status: 1,
+                message: 'operation erorr'
+            }));
+        }
     });
     ws.on('close', (code, reason) => {
         console.log(code, reason);

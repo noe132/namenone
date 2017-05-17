@@ -16,5 +16,8 @@ module.exports = {
     },
     removefriend({ uid, fuid }) {
         return mysqlQuery('DELETE FROM `friend` WHERE (uid = ? and fuid = ?) or (uid = ? and fuid = ?)', [uid, fuid, fuid, uid]);
+    },
+    insertchatlog({ from, to, content, date }) {
+        return mysqlQuery('insert into chatlog set uid = ?, fuid = ?, message = ?, date = ?', [from, to, content, date]);
     }
 };
