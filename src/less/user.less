@@ -38,10 +38,17 @@
     overflow: hidden;
 }
 
-.user-leave-active {
-    transition: opacity 1s;
+.user-enter {
+    transform: scale(0.8);
+    opacity: 0;
 }
 
-.user-enter, .user-leave-to {
+.user-enter-active {
+    transition: 1s all 0.3s;
+}
+
+.user-leave-active {
+    transform: scale(0.8);
     opacity: 0;
+    transition: 1s all 0s;
 }

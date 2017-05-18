@@ -14,17 +14,21 @@ let message_operation = {
         let date = new Date();
         // TODO insert
         model.insertchatlog({ from, to, content, date }).then(v => {
-            if (v.affectedRows === 1) {
-                wss.clients.forEach(v => {
-                    if (v.upgradeReq.session.uid === to && v.readyState === WebSocket.OPEN) {
-                        v.send(JSON.stringify({
-                            type: 'message',
-                            message: content,
-                            from,
-                        }));
-                    }
-                });
+            if (v.affectedRows !== 1) {
+                return;
             }
+            wss.clients.forEach(v => {
+                if (v.upgradeReq.session.uid === to && v.readyState === WebSocket.OPEN) {
+                    v.send(JSON.stringify({
+                        type: 'message',
+                        message: content,
+                        from,
+                        by: session.username,
+                        to,
+                        date
+                    }));
+                }
+            });
         }).catch(e => {
             // TODO fail
             console.log(e);
@@ -58,34 +62,38 @@ router.ws('/ws', (ws, wss) => {
         let data;
 
         if (typeof msg !== 'string') {
-            ws.send(JSON.stringify({
-                status: 1,
-                message: 'data must be json string'
-            }));
+            // ws.send(JSON.stringify({
+            //     status: 1,
+            //     message: 'data must be json string'
+            // }));
+            return;
         }
         try {
             data = JSON.parse(msg);
         } catch (e) {
-            ws.send(JSON.stringify({
-                status: 1,
-                message: 'json parse error'
-            }));
+            // ws.send(JSON.stringify({
+            //     status: 1,
+            //     message: 'json parse error'
+            // }));
+            return;
         }
 
         if (!(data.req in message_operation)) {
-            ws.send(JSON.stringify({
-                status: 1,
-                message: 'operation not defined'
-            }));
+            // ws.send(JSON.stringify({
+            //     status: 1,
+            //     message: 'operation not defined'
+            // }));
             return;
         }
         try {
             message_operation[data.req]({ data, session, ws, wss });
         } catch (e) {
-            ws.send(JSON.stringify({
-                status: 1,
-                message: 'operation erorr'
-            }));
+            // ws.send(JSON.stringify({
+            //     status: 1,
+            //     message: 'operation erorr'
+            // }));
+            console.log(e.message);
+            return;
         }
     });
     ws.on('close', (code, reason) => {

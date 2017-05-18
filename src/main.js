@@ -16,3 +16,7 @@ top.router = router;
 new Vue({
     router
 }).$mount('#app');
+
+if (window.location.pathname === '/') {
+    router.push('/user/login');
+}

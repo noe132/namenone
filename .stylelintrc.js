@@ -1,4 +1,4 @@
-{
+module.exports = {
     "rules": {
         "at-rule-empty-line-before": ["always", {
             "except": ["blockless-after-same-name-blockless", "first-nested"],
@@ -82,7 +82,7 @@
         "number-no-trailing-zeros": true,
         "property-case": "lower",
         "property-no-unknown": true,
-        "rule-empty-line-before": "always-multi-line",
+        // "rule-empty-line-before": "always-multi-line",
         "selector-attribute-brackets-space-inside": "never",
         "selector-attribute-operator-space-after": "never",
         "selector-attribute-operator-space-before": "never",

@@ -35,9 +35,9 @@ module.exports = {
                 method: 'post',
                 url: '/api/islogin'
             }).then(r => {
-                if (r.data.logined === true) {
+                if (r.data.status === 0) {
                     setTimeout(() => {
-                        // alert('you have already logined');
+                        alert('you have already logined');
                         this.$router.push('/chat');
                     }, 1000);
                 }

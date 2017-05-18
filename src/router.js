@@ -7,15 +7,12 @@ router.use('/api', bodyParser.json());
 router.use('/api', bodyParser.urlencoded({ extended: false }));
 
 router.all('/api/islogin', function(req, res) {
-    response({
-        res,
-        code: 200,
-        status: 0,
-        message: 'ok',
-        obj: {
-            logined: req.session.logined === true ? true : false
-        }
-    });
+    if (req.session.logined) {
+        response({ res, code: 200, status: 0, message: 'logined', });
+    } else {
+        response({ res, code: 200, status: 1, message: 'not_logined', });
+    }
+
 });
 
 router.all('/api/signup', function(req, res) {
@@ -70,11 +67,6 @@ router.all('/api/friends', function(req, res) {
     });
 });
 
-router.all('/api*', (req, res) => {
-    response({ res, code: 404, status: 1, message: '404' });
-});
-
-
 router.all('/api/addfriend', function(req, res) {
     if (!req.session.uid) {
         response({ res, code: 200, status: 1, message: 'not login' });
@@ -99,12 +91,13 @@ router.all('/api/removefriend', function(req, res) {
         response({ res, code: 200, status: 1, message: 'not login' });
         return;
     }
+    console.log(req.session.uid);
     model.removefriend({
         uid: req.session.uid,
-        fuid: req.body.fuid,
+        fuid: req.body.uid,
     }).then(v => {
         if (v.affectedRows === 2) {
-            response({ res, code: 200, status: 0, message: 'add friend successfully' });
+            response({ res, code: 200, status: 0, message: 'remove friend successfully' });
         } else {
             response({ res, code: 200, status: 1, message: 'friend not exist' });
         }
@@ -113,10 +106,25 @@ router.all('/api/removefriend', function(req, res) {
     });
 });
 
+router.all('/api/chatlog', function(req, res) {
+    if (!req.session.uid) {
+        response({ res, code: 200, status: 1, message: 'not login' });
+        return;
+    }
+    console.log(req.session.uid);
+    model.chatlog({
+        uid: req.session.uid,
+        fuid: req.body.uid,
+    }).then(v => {
+        response({ res, code: 200, status: 0, data: v });
+    }).catch(e => {
+        response({ res, code: 500, status: 1, message: e.toString() });
+    });
+});
+
 router.all('/api*', (req, res) => {
     response({ res, code: 404, status: 1, message: '404' });
 });
-
 
 
 function response({ res, code, status, message, data, exobj }) {

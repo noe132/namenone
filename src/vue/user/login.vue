@@ -57,7 +57,6 @@ module.exports = {
                 }).then(r => {
                     console.log(r.data);
                     if (r.data.status === 0) {
-                        alert('greetings');
                         _this.$router.push('/chat');
                     } else {
                         _this.message = r.data.message;

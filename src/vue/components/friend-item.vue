@@ -2,7 +2,7 @@
 <div class="friend-item" @click="friendclicked">
     <div class="avatar online"></div>
     <div class="name">{{ item.name }}</div>
-    <div class="delete"></div>
+    <div class="delete" @click="friendremove"></div>
 </div>
 </template>
 
@@ -12,8 +12,12 @@ module.exports = {
     methods: {
         friendclicked() {
             this.$emit('chat-switch', {
-                name: this.item.name
+                name: this.item.name,
+                uid: this.item.uid
             });
+        },
+        friendremove() {
+            this.$emit('remove-friend', this.item.uid);
         }
     }
 };
