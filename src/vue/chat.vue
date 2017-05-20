@@ -233,8 +233,8 @@ module.exports = {
                     uid
                 }
             }).then(r => {
+                _this.getfriends();
                 if (r.data.status === 0) {
-                    _this.getfriends();
                     // TODO alert
                 } else {
                     console.log(r.message);
